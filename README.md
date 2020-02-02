@@ -1,2 +1,2 @@
-# Information_retrieval
+# Information Retrieval
 Information Retrieval  Material and code
