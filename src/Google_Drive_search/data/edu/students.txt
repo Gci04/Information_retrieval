@@ -1,0 +1,8 @@
+﻿	Stanislav Protasov	Anastasia Chernova	a.chernova@innopolis.ru	16B3226	BS-3	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Maksim Grishin	m.grishin@innopolis.ru	16B3104	BS-3	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Maksim Kholyavchenko	m.kholyavchenko@innopolis.ru	16B3225	BS-3	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Almaz Melnikov	a.melnikov@innopolis.ru	16B3113	BS-3	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Pavel Oreshin	p.oreshin@innopolis.ru	16M1208	MS-1	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Bulat Nabiev	b.nabiev@innopolis.ru	16В3217	BS-3	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Stanislav Nikitin	s.nikitin@innopolis.ru	16M1205	MS-1	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки
+	Stanislav Protasov	Alexey Tolkachev	a.tolkachev@innopolis.ru	16B3223	BS-3	Face identification is a small dataset	NO	Система распознования лиц с использованием маленькой обучающей выборки

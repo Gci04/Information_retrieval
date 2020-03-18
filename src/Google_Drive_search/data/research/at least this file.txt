@@ -1,0 +1,13 @@
+segmentation
+algorithm
+classifer
+printf
+predecessor
+Шеннон
+Huffman
+function
+constructor
+machine learning
+dataset
+Протасов
+Protasov

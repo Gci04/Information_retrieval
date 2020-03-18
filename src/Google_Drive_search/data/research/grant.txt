@@ -1,0 +1,118 @@
+Proposed project is devoted to the problem of reliable biometric human identification using facial images. Solution of this problem requires develoment of mathematical models and method of identification, as well as implementation of software and hardware to verify proposed methods.
+Development of mathematical models and methods will be done with respect to existing and contemporary computer hardware and optics. Firstly, relevance of proposed solution can is explained by significant delay in software development for information retrieval from non-textual datasets. Today's tasks in area of security, marketing, information search stated by industry, government and society, cannot be solved with classical approaches of machine learning, computer vision and data analysis. It is caused by the new quality of these tasks (e.g. only introduction of deep neural networks allowed to provide image recognition quality accepted by industry), and also by requirements to amounts of data (problems that previously solved are now need to be generalized and scaled to accept big data).
+Secondly, nowadays industrial quality for implementing in real access control systems (ACS) is provided by following biometrical methods: fingerprint scanning, iris scanning, retina scanning and palm vein patterns scanning. Only one of these methods can be considered "passive" (iris scanning), although existing systems are still using backlight and fixed head positioning. This means that for creation of new identification systems with advanced throughput we need to develop new methods with similar accuracy and significantly bigger invariance to scanning conditions. Our research targets on creation of such methods.
+Scope of our research includes following research, expolatory research and development:
+1) Creation of new fast ellipse detection methods for eye detection. Existing methods either have low accuracy or highly demanding to computational resources.
+2) Creation of new spacial model of human face. Existing methods of identification by facial geometry are highly sensitive to face position in the image. Our task is to create a model that utilize sequences of images of the same face to build reliable spacial models.
+3) Studying and improvement of existing deep learning methods for face identification problems.
+4) Selection of necessary and sufficient facial geometrical features, which satisfy optimal identification quality.
+5) Implementation of hybrid model based on the featues produced by iris identification method, gemetry estimation methods and deep neural networks.
+6) Creation of mathematical model, describing qualities of biometrical systems. This model with give an opportunity to estimate system qualities considering technical constraints: used hardware, environment, database parameters.
+7) Development of search engine and access control system prototypes.
+
+Our scientific group has required competences for successful research and development. Protasov S.I. (project lead) defened his PhD thesis on computer vision [1][2]. Today he is conducting research in area of machine learning; results of this research are presented in leading conferences [3][4]. Scientific group also include students with an experience of successful projects in area of machine learning and computer vision.
+Scientific novelty of our research is delivered by new hybrid mathematical model, which describes and supports the process of human biometrics identification. This model consists of new method of building spacial face model by video and method of quality estimation for biometrical system based of technical constrants.
+
+1. Protasov S.I. Methods and algorithms of data analysis, transfer and visualization in computer stereo-vision systems (PhD thesis) - Voronezh, 2013, 16 pp.
+2. Protasov S.I. An approach to a problem of stereoimage rectification without camera calibration using scene images / Protasov S.I., Krylovetskiy A.A., Kurgalin S.D. // Information technologies. - Moscow, 2013 - Issues 2, 61-65 pp.
+3. Muhammad Ahmad, Adil Mehmood Khan, Joseph Alexander Brown, Stanislav Protasov, Asad Masood Khattak. Gait fingerprinting-based user identification on smartphones / IJCNN'2016.
+4. Muhammad Ahmad, Adil Mehmood Khan, Rasheed Hussain, Stanislav Protasov, Francis Chow, Asad Masood Khattak. Unsupervised Geometrical Feature Learning from Hyperspectral Data / IEEE SSCI'2016.
+
+
+Planned results can be divided into teoretical and applied.
+
+Theoretical results.
+1) Creation of hybrid model for human identification by face image. This model with help to increase identification accuracy and invariance to hardware. Nowadays all passive identification systems are based on a single feature captured in fixed environment; our task is to build a model in which features will complement each other with maximum efficiency for solving identification problem.
+2) Creation of mathematical model for estimation of identification accuracy and for describing applicability boundaries of hybrid model. Using this model we will be able to estimate false acceptance rate (FAR) and false rejection rate (FRR) in predefined environment. This model will allow to create biometrical identification system with required accuracy.
+3) We will implement a model of geometrical facial features, and methods for extracting these features from video. This model and methods will increase biometrical identification accuracy.
+4) We wil select necessaty feature set for identification by face geometry. These featues will be used in implementation of video search and in ACS with limited computational resources. Today facial geometry is restored from facial landmarks and other biometrical parameters. Using machine learning methods we will find most valuable parameters.
+
+
+Applied results.
+1) Implementation of system for human search in big databases and videostreams with high reliability. We are going to create a system that will index video databases with human present in this video. Second application of such system is to implement detectors for videostreams form CCTV. The system will introduce new quality and performance for information retrieval methods, which will expand their application scope.
+2) Implementation of passive biometrical scanner, which minimized FAR. Currently, amoung all passive biometrical methods iris scanning is the most accurate method. This is one of few methods which have accuracy enough to build ACS. We are planning to enhance quality of such systems using state-of-the-art methods in machine learning, using convolutional neural networks. Our solution has a potential to increase throughput of identification systems preserving their accuracy.
+
+
+
+
+
+A set of methods, models and algorithms for sterevision systems. Includes stereomatching parallel implementation, camera synchronization methods, stereimage recrification algorithms without camera calibration. Results are presented in PhD thesis "Methods and algorithms of data analysis, transfer and visualization in computer stereo-vision systems"
+
+Methods of human identification by smartphone accelerometer data. Results allow identify smartphone owner by gait with high accuracy having smartphone freely placed in a pocket. Results are presented at IJCNN:
+Muhammad Ahmad, Adil Mehmood Khan, Joseph Alexander Brown, Stanislav Protasov, Asad Masood Khattak. Gait fingerprinting-based user identification on smartphones / IJCNN'2016.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Groups
+
+Carnegie Mellon University - CyLab Biometrics Lab - Iris and face. enable cameras to capture 100 image frames per second.  2D-3D mapping of faces.
+https://www.cylab.cmu.edu/partners/success-stories/iris-recognition.html
+https://www.cylab.cmu.edu/education/faculty/savvides.html
+Iris and geometry!
+
+Computer Vision Group at Colorado State University - 
+http://www.cs.colostate.edu/~vision/pasc/ijcb2014/ijcb_handheld_20140721.pdf
+The IJCB 2014 PaSC Video Face and Person Recognition Competition
+
+Facebook AI Research (FAIR) - semantic mining, reading out images.
+
+Graz University of Technology, Learning Recognition & Surveilliance, Institute for Computer Graphics and Vision
+Human Factors Technologies and Services (FACTS) 
+http://lrs.icg.tugraz.at/research/aflw/ - landmarked dataset
+
+Idiap Research Institute - conducts basic research and development in the area of multimedia information management
+Google eyes - blinking - Spoofing
+facereclib 2.1.2
+
+Image and video systems lab, KAIST - deep learning kandmark detection, color face recognition
+
+Microsoft Research, Visual Computing - Microsft cognitive toolkit & services
+
+Nanjing University, LAMDA (Learning and Mining from Data)
+The paper "Face recognition from a single image per person: A survey" is listed in Patter Recognition Journal's Top 10 Most Cited Papers During the Past Five Years (2011).
+Xiaoyang Tan, Songcan Chen, Zhi-Hua Zhou, and Fuyan Zhang. 2006. Face recognition from a single image per person: A survey. Pattern Recogn. 39, 9 (September 2006), 1725-1745. DOI=http://dx.doi.org/10.1016/j.patcog.2006.03.013
+
+Lambda Labs - https://lambdal.com/index.html
+
+University of Massachusetts - Vision Lab, http://vis-www.cs.umass.edu/~gbhuang/cdbns_cvpr2012.html
+
+University of Bologna, Biometric System Laboratory, Department of Computer Science and Engineering (DISI) The main research efforts of the Biometric System Laboratory are devoted to fingerprint and face recognition and to performance evaluation of biometric systems.
+L. Nanni, A. Lumini and S. Brahnam, "Ensemble of face/eye detectors for accurate automatic face detection", International Journal of Latest Research in Science and Technology, vol.4, no.3, pp.8-17, May 2015
+
+https://www.kairos.com/
+
+Even a perfect 3D matching technique could be sensitive to expressions. For that goal a group at the Technion applied tools from metric geometry to treat expressions as isometries
+
+
+key advantage is that it does not require the cooperation of the test subject to work
+
+One of the main challenges faced by the current face recognition techniques lies in the difficulties of collecting samples. Fewer samples per person mean less laborious effort for collecting them, lower costs for storing and processing them. Unfortunately, many reported face recognition techniques rely heavily on the size and representative of training set,
+and most of them will suffer serious performance drop or even fail to work if only one training sample per person is available to the systems. This situation is called “one sample per person” problem: given a stored database of faces, the goal is to identify a person from the database later in time in any different and unpredictable poses, lighting, etc from just one image. Such a task is very challenging for most current algorithms due to the extremely limited representative of training sample. Numerous techniques have been developed to attack this problem.
+As one of the few biometric methods that possess the merits of both high accuracy and low intrusiveness, Face Recognition Technology (FRT) has a variety of potential applications in information security, law enforcement and surveillance, smart cards, access control, among others [1-3]. For this reason, FRT has received significantly increased attention from both the academic and industrial communities during the past twenty years. Several authors have recently surveyed and evaluated the current FRTs from different aspects. For example, Samal et al. [4] and Valentin et al. [5] surveyed the feature-based and the neuralnetwork-based techniques, respectively, Yang et al. reviewed face detection techniques [6], Pantic and Rothkrantz [7] surveyed the automatic facial expression analysis, Daugman [3] pointed out several critical issues involved in an effective face recognition system, while the most recent and comprehensive survey is possibly from that of Zhao et al [1], where many of the latest techniques are reviewed.
+
+Zhao, W. , Chellappa, R., Phillips, P. J. and Rosenfeld, A., Face Recognition: A Literature Survey, ACM Computing Survey, December Issue (2003) 399-458.
+Chellappa R, Wilson C L, Sirohey S. Human and machine recognition of faces: a survey. Proceedings of the IEEE, 83(5) (1995) 705-740.
+Daugman J. Face and gesture recognition: Overview, IEEE Trans. Pattern Analysis and Machine Intelligence, 19(7)(1997) 675-676.
+Samal A. and Iyengar P. A., Automatic recognition and analysis of human faces and facial expressions: A survey, Pattern Recognition, 25(1) (1992) 65–77.
+Valentin D., Abdi H., et al, Connectionist models of face processing: a survey, Pattern Recognition, 27(9) (1994) 1209-1230.
+Yang, M.H.,Kriegman, D., and Ahuja,N. Detecting faces in images: A survey. IEEE Trans. Pattern Analysis and Machine Intelligence, 24(1) (2002) 34–58.
+Pantic M. and Rothkrantz L.J.M., Automatic analysis of facial expressions: the state of the art, IEEE Trans. Pattern Analysis and Machine Intelligence, 22(12) (2000) 1424-1445.
+
+
+
+
+
+
+
+
+
