@@ -40,6 +40,6 @@ To contribute an update simply:
 
 ## Members & Contact:
 
-|Name     |  Email          |
+|<center>Name</center>     |  <center>Email</center>          |
 |---------|-----------------|
 |[Gcinizwe Dlamini](https://github.com/Gci04)| g.dlamini@innopolis.university       |
