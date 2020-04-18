@@ -1,0 +1,33 @@
+h1{
+  color: #4CAF50;
+  font-weight: bold;
+  text-align: center;
+  font-family: Courier;
+  font-size: 50px;
+}
+#search_btn {
+  background-color: white;
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 20px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  color: black;
+  border: 2px solid #4CAF50;
+  font-family: Courier;
+  font-weight: bolder;
+  border-radius: 25px;
+}
+#search_btn:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+#result-title{
+  font-weight: bold;
+  font-size: 18px;
+  color: #0c0cb9;
+}
+.fixed-bottom{
+  background-color: rgb(115, 168, 60);
+}

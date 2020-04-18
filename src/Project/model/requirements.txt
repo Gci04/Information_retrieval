@@ -1,0 +1,6 @@
+Flask==0.12.3
+numpy
+selenium
+annoy
+gensim
+nltk

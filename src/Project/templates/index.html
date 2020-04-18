@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Random G Search</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type='text/css' href="../css/styles.css" />
+  </head>
+  <body style="background:floralwhite">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1 >My Search Tool</h1>
+          <form method='POST' action="{{ url_for('submit') }}" onsubmit="return check(this)">
+            <div class="form-group">
+              <textarea class="form-control" rows="5" id="input_text" placeholder="" name="projectFilepath"></textarea>
+              <center><input id="search_btn" align='center' value="Search" type="submit"></center>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row results justify-content-md-center">
+        <div class="col col-md-8">
+          <div class="list-group">
+            {% for item in results %}
+              <div class="">
+                <a href={{ item[1].get('link') }} class="list-group-item list-group-item-action"><span id='result-title'>{{ item[1].get('title') }}</span><br>{{ item[1].get('Abstract')[:200] }} ...<br> {{ item[1].get('year') }}</a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="fixed-bottom">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+                 <div class="col-xm-12">
+                     <p>© Copyright 2018 G Tech Corp</p>
+                 </div>
+          </div>
+        </div>
+    </footer>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>
