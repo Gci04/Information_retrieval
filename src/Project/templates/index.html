@@ -14,7 +14,7 @@
           <h1 >My Search Tool</h1>
           <form method='POST' action="{{ url_for('submit') }}" onsubmit="return check(this)">
             <div class="form-group">
-              <textarea class="form-control" rows="5" id="input_text" placeholder="" name="projectFilepath"></textarea>
+              <textarea class="form-control" rows="5" id="input_text" placeholder="" name="projectFilepath">{{ SearchTxt }}</textarea>
               <center><input id="search_btn" align='center' value="Search" type="submit"></center>
             </div>
           </form>

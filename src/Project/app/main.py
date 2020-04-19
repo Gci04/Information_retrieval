@@ -10,7 +10,7 @@ index = AnnoyIndex(5, 'euclidean')
 index.load('../model/index.ann')
 
 #Load Documents
-with open('../model/raw_data.pickle', 'rb') as handle:
+with open('../model/joined_raw_data.pickle', 'rb') as handle:
     documents = pickle.load(handle)
 
 #Load Doc to vec
@@ -41,17 +41,17 @@ def retrieve(query):
 def submit():
     query = request.form['projectFilepath']
     if query.strip() == '':
-        return render_template('index.html',results = [] )
+        return render_template('index.html',results = [] , SearchTxt = query)
     else:
         #get result
         results = retrieve(query)
-        return render_template('index.html',results = results )
+        return render_template('index.html',results = results , SearchTxt = query )
 
 @app.route('/',methods=['POST', 'GET'])
 def home():
     print("i am in root")
     res_data = []
-    return render_template('index.html',results = res_data )
+    return render_template('index.html',results = res_data ,SearchTxt ='')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True)
