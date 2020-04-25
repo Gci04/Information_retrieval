@@ -9,3 +9,4 @@ selenium
 annoy
 jsonlines
 pygtrie
+librosa

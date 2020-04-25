@@ -1,0 +1,29 @@
+Vagrant.configure("2") do |config|
+  # config.vm.network :private_network, ip: "192.168.0.42"
+  config.vm.provider "docker" do |d|
+    d.build_dir = "."
+    d.has_ssh = true
+  end
+end
+
+# Vagrant.configure("2") do |config|
+#   # config.vm.synced_folder ".", "/vagrant", type: "nfs", disabled: true
+#
+#   config.vm.define "my-container" do |m|
+#     m.ssh.username = "root"
+#     m.ssh.password = "root"
+#     m.ssh.port = 22
+#
+#     m.vm.provider :docker do |d|
+#       d.name = "my-container"
+#       d.build_dir = "."
+#
+#       d.force_host_vm = true
+#       d.has_ssh = true
+#       d.cmd = ["tail", "-f", "/dev/null"]
+#       d.remains_running = true
+#
+#       d.ports = ['80:80']
+#     end
+#   end
+# end

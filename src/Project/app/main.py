@@ -5,6 +5,9 @@ from annoy import AnnoyIndex
 from nltk.corpus import stopwords
 from gensim.models.doc2vec import Doc2Vec
 
+print(os.system('pwd'))
+print(os.system('ls'))
+
 #load index and Annoy
 index = AnnoyIndex(5, 'euclidean')
 index.load('../model/index.ann')
