@@ -5,15 +5,13 @@ from annoy import AnnoyIndex
 from nltk.corpus import stopwords
 from gensim.models.doc2vec import Doc2Vec
 
-print(os.system('pwd'))
-print(os.system('ls'))
 
 #load index and Annoy
 index = AnnoyIndex(5, 'euclidean')
 index.load('../model/index.ann')
 
 #Load Documents
-with open('../model/joined_raw_data.pickle', 'rb') as handle:
+with open('../data/raw_data_filtered.pickle', 'rb') as handle:
     documents = pickle.load(handle)
 
 #Load Doc to vec
