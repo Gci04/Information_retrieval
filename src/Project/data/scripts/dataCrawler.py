@@ -1,8 +1,4 @@
-import time, os, selenium, requests, re , pickle, string
-from gensim.test.utils import common_texts
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-from annoy import AnnoyIndex
-import numpy as np
+import os, time, re , pickle, string
 from nltk.corpus import stopwords
 
 from selenium import webdriver
@@ -13,7 +9,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from abc import ABCMeta, abstractmethod
-import multiprocessing as mp
+
+#For arxiv & ScienceDirect API
+import arxiv
+from abc import ABCMeta, abstractmethod
+from elsapy.elsclient import ElsClient
+from elsapy.elsdoc import FullDoc
+from elsapy.elssearch import ElsSearch
 
 """Create an Abstract Data Crawler
 This class serves as a template to implement a specific scientific articles base crwaler
@@ -60,11 +62,15 @@ def clean(sentence):
 class IEEESeach(DataCrawler):
     """IEEE document base searcher"""
     def __init__(self,output_dir):
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+
         self.url = "https://ieeexplore.ieee.org"
-        self.browser = webdriver.Chrome(executable_path='./chromedriver')
+        self.browser = webdriver.Chrome(executable_path='./chromedriver',chrome_options=options)
+        self.browser.maximize_window()
         super().__init__(os.path.join(output_dir, 'IEEE'),self.url)
 
-    def search(self,query="A Lightweight Autoencoder"):
+    def search(self,query="A Lightweight Autoencoder",max_res=100):
         """finds documents related to query in IEEE document base"""
 
         self.browser.get("https://ieeexplore.ieee.org")
@@ -76,7 +82,7 @@ class IEEESeach(DataCrawler):
         action.perform() #press search button
 
         #get all the urls of the articles/documents found
-        for item in self.browser.find_elements_by_class_name("List-results-items"):
+        for item in self.browser.find_elements_by_class_name("List-results-items")[:max_res]:
             text = item.text.split("\n")
             title = text[0].strip()
             year = text[3].split("|")[0].split(":")[1].strip()
@@ -109,11 +115,14 @@ class IEEESeach(DataCrawler):
 class arXiv(DataCrawler):
     """arXiv.org document base searcher"""
     def __init__(self,output_dir):
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
         self.url = "https://arxiv.org"
-        self.browser = webdriver.Chrome(executable_path='./chromedriver')
+        self.browser = webdriver.Chrome(executable_path='./chromedriver',chrome_options=options)
+        self.browser.maximize_window()
         super().__init__(os.path.join(output_dir, 'arXiv'),self.url)
 
-    def search(self,query="A Lightweight Autoencoder"):
+    def search(self,query="A Lightweight Autoencoder",max_res = 100):
         """finds documents related to query in arXiv document base"""
 
         self.browser.get(self.url)
@@ -132,13 +141,16 @@ class arXiv(DataCrawler):
         #get all the urls of the articles/documents found
         res_art = self.browser.find_elements_by_class_name("arxiv-result")
         self.results = {}
-        for r in res_art:
-            doc_id = str(hex(time.time().as_integer_ratio()[0]))
-            title = r.find_element_by_class_name("title").text
-            abstract = r.find_element_by_class_name("abstract").text[10:-6]
-            pdf_link = r.find_element_by_partial_link_text("pdf").get_attribute("href")
-            dates = r.find_element_by_css_selector("p.is-size-7").text
-            self.results[doc_id] = {"title": title, "year": dates, "link": pdf_link, "Abstract":abstract}
+        for r in res_art[:max_res]:
+            try:
+                doc_id = str(hex(time.time().as_integer_ratio()[0]))
+                title = r.find_element_by_class_name("title").text
+                abstract = r.find_element_by_class_name("abstract").text[10:-6]
+                pdf_link = r.find_element_by_partial_link_text("pdf").get_attribute("href")
+                dates = r.find_element_by_css_selector("p.is-size-7").text
+                self.results[doc_id] = {"title": title, "year": dates, "link": pdf_link, "Abstract":abstract}
+            except Exception as e:
+                continue
 
         self.browser.quit()
         self.browser_running = False
@@ -155,11 +167,14 @@ class arXiv(DataCrawler):
 class ScienceDirect(DataCrawler):
     """sciencedirect.com document base searcher"""
     def __init__(self,output_dir):
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
         self.url = "https://www.sciencedirect.com"
-        self.browser = webdriver.Chrome(executable_path='./chromedriver')
+        self.browser = webdriver.Chrome(executable_path='./chromedriver',chrome_options=options)
+        self.browser.maximize_window()
         super().__init__(os.path.join(output_dir, 'sciencedirect'),self.url)
 
-    def search(self,query="A Lightweight Autoencoder"):
+    def search(self,query="A Lightweight Autoencoder",max_res=100):
         """finds documents related to query in science direct document base"""
 
         self.browser.get(self.url)
@@ -173,23 +188,26 @@ class ScienceDirect(DataCrawler):
         #expand the result div to show full abstract text
         self.results = {}
         time.sleep(0.01)
-        res_items = self.browser.find_elements_by_class_name("ResultItem")
+        res_items = self.browser.find_elements_by_class_name("ResultItem")[:max_res]
         time.sleep(0.01)
         for i in res_items:
-            wait = WebDriverWait(i, 10)
-            i.find_element_by_css_selector("[aria-label=Abstract]").click()
-            element = wait.until(EC.presence_of_element_located((By.CLASS_NAME,'preview-body-container')))
+            try:
+                wait = WebDriverWait(i, 10)
+                i.find_element_by_css_selector("[aria-label=Abstract]").click()
+                element = wait.until(EC.presence_of_element_located((By.CLASS_NAME,'preview-body-container')))
 
-            abstract = element.find_element_by_tag_name("p").text
-            title = i.find_element_by_class_name("result-list-title-link").text
-            pdf_link = i.find_element_by_partial_link_text("Download PDF").get_attribute("href")
+                abstract = element.find_element_by_tag_name("p").text
+                title = i.find_element_by_class_name("result-list-title-link").text
+                pdf_link = i.find_element_by_partial_link_text("Download PDF").get_attribute("href")
 
-            date = " ".join([j.text for j in i.find_element_by_class_name("SubType").find_elements_by_tag_name('span')])
-            date = re.findall('(?:January|February|March|April|May|June|July|August|September|October|November|December)[\s-]\d{2,4}', date)
+                date = " ".join([j.text for j in i.find_element_by_class_name("SubType").find_elements_by_tag_name('span')])
+                date = re.findall('(?:January|February|March|April|May|June|July|August|September|October|November|December)[\s-]\d{2,4}', date)
 
-            date = date[0] if len(date)> 0 else 'Unknown'
-            doc_id = str(hex(time.time().as_integer_ratio()[0]))
-            self.results[doc_id] = { "year": date, "Abstract":abstract, "link": pdf_link, "title": title }
+                date = date[0] if len(date)> 0 else 'Unknown'
+                doc_id = str(hex(time.time().as_integer_ratio()[0]))
+                self.results[doc_id] = { "year": date, "Abstract":abstract, "link": pdf_link, "title": title }
+            except Exception as e:
+                continue
 
         self.browser.quit()
         self.browser_running = False
@@ -202,55 +220,72 @@ class ScienceDirect(DataCrawler):
         """Saves processed data."""
         print("Saving....")
 
-def get_data_selenium(query):
-    failed = 0
-    try:
-        ScienceDirect_docs = ScienceDirect("./")
-        ScienceDirect_docs.search(query)
-    except Exception as e:
-        if getattr(ScienceDirect_docs,"browser_running",True) : ScienceDirect_docs.browser.close()
-        ScienceDirect_docs.results = {}
-        failed +=1
+class API(metaclass=ABCMeta):
+    """docstring for Base API."""
 
-    try:
-        arXiv_docs = arXiv("./")
-        arXiv_docs.search(query)
+    def __init__(self, output_directory, api_url):
+        self.output_directory = output_directory
+        self.api_url = api_url
+        self.api_name = ""
+        self.data = {}
 
-    except Exception as e:
-        if getattr(arXiv_docs,"browser_running",True) : arXiv_docs.browser.close()
-        arXiv_docs.results = {}
-        failed +=1
+    @abstractmethod
+    def search(self):
+        """Search a given query using base_url"""
+        pass
 
-    try:
-        ieee_docs = IEEESeach("./")
-        ieee_docs.search(query)
+    @abstractmethod
+    def save(self):
+        """Saves processed data."""
+        pass
 
-    except Exception as e:
-        if getattr(ieee_docs,"browser_running",True) : ieee_docs.browser.close()
-        ieee_docs.results = {}
-        failed +=1
+class arXiv_API(API):
+    """docstring for arXiv_API."""
+    def __init__(self, dir):
+        self.api_key = 'None'
+        super().__init__(dir,"http://export.arxiv.org/api")
+        self.api_name = 'arxiv'
+    def search(self,query="A Lightweight Autoencoder"):
 
-    if failed > 1 : return get_data_selenium(query)
-    return {**ieee_docs.results, **arXiv_docs.results, **ScienceDirect_docs.results}
+        # url = f'http://export.arxiv.org/api/query?search_query=all:{"+".join(query.split(" "))}'
+        # response = ur.urlopen(url).read()
+        results = arxiv.query(query=query, max_results=50)
+        for doc in results:
+            title = doc["title"]
+            abstract = doc["summary"]
+            pdf_link = doc['pdf_url']
+            dates = doc["published"].split("-")[0]
+            doc_id = str(hex(time.time().as_integer_ratio()[0]))
+            self.data[doc_id] = {"title": title, "year": dates, "link": pdf_link, "Abstract":abstract}
 
-def main(save_dir):
-    pool = mp.Pool(mp.cpu_count())
-    with open('./words.txt','r') as f:
-        terms = f.read().splitlines()
+    def save(self):
+        pass
 
-    results = pool.starmap_async(get_data_selenium, [[term] for term in terms[:2]]).get()
-    pool.close()
+class ScienceDirect_API(API):
+    """docstring for arXiv_API."""
+    def __init__(self, dir):
+        self.api_key = '902bdc6a538d5912287ddc22ba0f3698'
+        super().__init__(dir,'https://dev.elsevier.com')
+        self.api_name = 'Science Direct API'
+        self.client = ElsClient(self.api_key)
 
-    #Join the data retrieved from different sources & Save to disk
-    all_data = {}
-    for r in results:
-        all_data.update(r)
+    def search(self,query="A Lightweight Autoencoder"):
+        doc_srch = ElsSearch(query,'sciencedirect')
+        doc_srch.execute(self.client, get_all = False)
+        for _,doc in doc_srch.results_df.iterrows():
+            pii_doc = FullDoc(sd_pii = doc['pii'])
+            if pii_doc.read(self.client):
+                try:
+                    abstract = " ".join(pii_doc.data['coredata']['dc:description'].split()[1:])
+                    doc_id = str(hex(time.time().as_integer_ratio()[0]))
+                    title = doc['dc:title']
+                    pdf_link = doc['link']['scidir']
+                    dates = doc['load-date'].split('-')[0]
+                    self.data[doc_id] = {"title": title, "year": dates, "link": pdf_link, "Abstract":abstract}
+                except:
+                    pass
+            else:
+                print("Doc Skipped!!")
 
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-
-    with open(os.path.join(save_dir,'raw_data_selenium.pickle'),'wb') as handle:
-        pickle.dump(np.array([i for i in all_data.items()]),handle,protocol=pickle.HIGHEST_PROTOCOL)
-
-if __name__ == '__main__':
-    main()
+    def save(self):
+        pass
