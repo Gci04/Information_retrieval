@@ -42,7 +42,7 @@ def main(data_folder='../data',save_dir='./'):
     documents = [TaggedDocument(doc, [i]) for i, doc in enumerate(all_data)]
 
     # train a model
-    model = Doc2Vec(documents,vector_size=5,window=2,min_count=1,workers=4)
+    model = Doc2Vec(documents,vector_size=5,window=5,min_count=1,workers=4)
 
     # clean training data and save model to disk
     if not os.path.exists(save_dir):
@@ -58,7 +58,7 @@ def main(data_folder='../data',save_dir='./'):
     for i, row in enumerate(all_data):
         index.add_item(i,model.infer_vector(row))
 
-    index.build(20) # number of trees
+    index.build(100) # number of trees
 
     # Save Index to disk
     index.save(os.path.join(save_dir,'index.ann'))

@@ -3,7 +3,7 @@ import pickle, os, sys
 
 def main(data_folder='../'):
     """Joins data retrieved documents by removing any exixting duplicates
-    :data_folder : string, path to directory containing data files
+    :param data_folder : string, path to directory containing data files
     :return : None
     """
     data_filenames = []

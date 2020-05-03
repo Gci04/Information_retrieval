@@ -1,21 +1,30 @@
 import numpy as np
 from flask import Flask, request, jsonify, render_template, redirect, url_for
-import pickle, os, string
+import pickle, os, string, sys
 from annoy import AnnoyIndex
 from nltk.corpus import stopwords
 from gensim.models.doc2vec import Doc2Vec
+sys.path.append('..')
 
+try:
+    #load index and Annoy
+    index = AnnoyIndex(5, 'euclidean')
+    index.load('../model/index.ann')
 
-#load index and Annoy
-index = AnnoyIndex(5, 'euclidean')
-index.load('../model/index.ann')
+    #Load Doc to vec
+    model = Doc2Vec.load("../model/d2v.model")
+except Exception as e:
+    print('failled to load index')
+    # create index and reload
+    from model import train
+    train.main(data_folder='../data',save_dir='../model')
+
+    index = AnnoyIndex(5, 'euclidean')
+    index.load('../model/index.ann')
 
 #Load Documents
 with open('../data/raw_data_filtered.pickle', 'rb') as handle:
     documents = pickle.load(handle)
-
-#Load Doc to vec
-model = Doc2Vec.load("../model/d2v.model")
 
 app = Flask(__name__,static_url_path='',static_folder='../',template_folder='../templates')
 

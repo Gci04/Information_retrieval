@@ -8,10 +8,10 @@
     <link rel="stylesheet" type='text/css' href="../css/styles.css" />
   </head>
   <body style="background:floralwhite">
-    <div class="container">
+    <div class="container" style="padding-bottom: 30px;">
       <div class="row">
         <div class="col">
-          <h1 >My Search Tool</h1>
+          <h1 >Related Publication Search</h1>
           <form method='POST' action="{{ url_for('submit') }}" onsubmit="return check(this)">
             <div class="form-group">
               <textarea class="form-control" rows="5" id="input_text" placeholder="" name="projectFilepath">{{ SearchTxt }}</textarea>

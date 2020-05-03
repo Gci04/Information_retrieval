@@ -45,7 +45,7 @@ def main():
     os.mkdir('../temp_dump')
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-        future_to_result = {executor.submit(get_res, term): term for term in TERMS[6:10]}
+        future_to_result = {executor.submit(get_res, term): term for term in TERMS}
         for future in concurrent.futures.as_completed(future_to_result):
             url = future_to_result[future]
             try:
@@ -54,11 +54,15 @@ def main():
                 print('{} generated an exception: {}'.format(url, exc))
             else:
                 print('{} generated {} documents'.format(url, len(data)))
-                all_data.update(data)
                 # if data gets big, create a callback function and dump folder
-                with open(f'../temp_dump/{url.replace(" ","")}_{time.time()}.pickle','wb') as handle:
-                    pickle.dump(data,handle,protocol=pickle.HIGHEST_PROTOCOL)
+                try:
+                    with open(f'../temp_dump/{url.replace(" ","")}_{time.time()}.pickle','wb') as handle:
+                        pickle.dump(data,handle,protocol=pickle.HIGHEST_PROTOCOL)
+                except Exception as e:
+                    with open(f'../temp_dump/{time.time()}.pickle','wb') as handle:
+                        pickle.dump(data,handle,protocol=pickle.HIGHEST_PROTOCOL)
 
+                all_data.update(data)
 
     # dump reuslt to disk
     with open(f'../raw_data{time.time()}.pickle','wb') as handle:
